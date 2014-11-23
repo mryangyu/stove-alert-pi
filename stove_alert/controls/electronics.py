@@ -44,6 +44,7 @@ class Electronics(object):
 		import controller
 		import serial
 		self.ser = serial.Serial('/dev/ttyACM0', 9600)
+		time.sleep(2)
 		self.watches = []
 		self.control = controller.Controller.instance()
 		self.hook()
