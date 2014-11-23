@@ -17,8 +17,8 @@ def monitor(electronics, control):
 
 	while(True):
 		electronics.ser.write('t\n') # temperature
-		control.sensors.temperature = float(electronics.ser.readline())
 		print "temperature is", control.sensors.temperature
+		control.sensors.temperature = float(electronics.ser.readline())
 		control.preventation()
 		
 		time.sleep(2)
