@@ -14,7 +14,7 @@ def digestion(func):
 	return inner
 
 def monitor(electronics, control):
-	while(True)
+	while(True):
 		electronics.ser.write('t') # temperature
 		control.sensors.temperature = electronics.ser.readline()
 		
@@ -40,7 +40,7 @@ class Electronics(object):
 	def __init__(self):
 		import controller
 		import serial
-		self.ser = serial.Serial('/dev/ttyACM0', 9600)
+		self.ser = serial.Serial('/dev/ttyACM1', 9600)
 		self.watches = []
 		self.control = controller.Controller.instance()
 		self.hook()

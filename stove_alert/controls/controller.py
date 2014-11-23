@@ -6,6 +6,8 @@ from termcolor import colored
 from utils.patterns import *
 from twilio.rest import TwilioRestClient
 
+twilio = Twilio()
+
 MOCKED = {
 		'system': "+16475608477",
 		"yang": '+16473009264'
@@ -16,14 +18,9 @@ class Controller(Serializable):
 	def __init__(self):
 		self.sensors = sensors.Sensors()
 		self.ui = sensors.UI()
-		self.twilio = Twilio()
-
-	def initialize_components(self):
-		self.sms_user()
-		return
 
 	def sms_user(self):
-		self.twilio.sms(MOCKED['yang'], "Fire!!! Fire!!!!!")
+		twilio.sms(MOCKED['yang'], "Fire!!! Fire!!!!!")
  
 class Twilio(Serializable):
 	# Your Account Sid and Auth Token from twilio.com/user/account

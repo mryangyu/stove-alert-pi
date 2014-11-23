@@ -6,7 +6,6 @@ from controls.controller import Controller
 
 electronics = Electronics.instance()
 control = Controller.instance()
-control.initialize_components()
 
 class WebService(object):
 	exposed = True
