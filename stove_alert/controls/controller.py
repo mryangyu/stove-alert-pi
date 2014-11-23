@@ -11,7 +11,7 @@ TRIGGER_TEMP = 39
 MOCKED = {
 		'system': "+16475608477",
 		"triggers": ['+16473009264', "+15145601025"]
-	}
+	}t
 
 class Twilio(Serializable):
 	# Your Account Sid and Auth Token from twilio.com/user/account
@@ -38,7 +38,7 @@ class Controller(Serializable):
 		self._last_temeprature = None
 
 	def sms_user(self):
-		twilio.sms(MOCKED['triggers'][self._level], "Fire!!! Fire!!!!!")
+		twilio.sms(MOCKED['triggers'][self._level - 1], "Fire!!! Fire!!!!!")
 
 	@electronics.digestion
 	def preventation(self):
@@ -46,6 +46,8 @@ class Controller(Serializable):
 		if self._level > 0 and (Controller._last_alert_at - datetime.datetime.now()).total_seconds < 10: return
 
 		if self.sensors.temperature > TRIGGER_TEMP:
+			self._level += 1
+			
 			if not self.ui.buzzer: self.ui.buzzer = True
 
 			self._last_temeprature = self.sensors.temperature
@@ -55,7 +57,6 @@ class Controller(Serializable):
 				self.sms_user()
 			else:
 				self.ui.power = False
-			self._level += 1
 
 		else:
 			if self.ui.buzzer: self.ui.buzzer = False
