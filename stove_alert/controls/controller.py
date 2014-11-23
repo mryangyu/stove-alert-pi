@@ -1,6 +1,7 @@
 import time
 import datetime
 import sensors
+import electronics
 
 from termcolor import colored
 from utils.patterns import *
@@ -51,9 +52,10 @@ class Controller(Serializable):
 				self.ui.power = False
 			self._level += 1
 
+	@electronics.digestion
 	def commands(self, commands):
 		for key in commands:
 			if key == "buzzer":
-				self.control.ui.buzzer = bool(commands[key])
+				self.ui.buzzer = bool(commands[key])
 			elif key == "power":
-				self.control.ui.power = bool(commands[key])
+				self.ui.power = bool(commands[key])
