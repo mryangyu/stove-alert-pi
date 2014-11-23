@@ -3,7 +3,6 @@ import datetime
 import sensors
 import electronics
 
-from termcolor import colored
 from utils.patterns import *
 from twilio.rest import TwilioRestClient
 

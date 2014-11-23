@@ -2,7 +2,6 @@ import types
 import threading
 import time
 from utils.patterns import *
-from termcolor import colored
 
 def digestion(func):
 	def inner(*args, **kwargs):
