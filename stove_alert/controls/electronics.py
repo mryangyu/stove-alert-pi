@@ -14,12 +14,11 @@ def digestion(func):
 	return inner
 
 def monitor(electronics, control):
-	print colored("reading temperature", "red")
-	electronics.ser.write('t') # temperature
-	while(True):
+	while(True)
+		electronics.ser.write('t') # temperature
 		control.sensors.temperature = electronics.ser.readline()
-
-		time.sleep(1)
+		
+		time.sleep(2)
 
 def watch_once(owner, expr, action):
 	electronics = Electronics.instance()
@@ -40,8 +39,8 @@ class Watch(object):
 class Electronics(object):
 	def __init__(self):
 		import controller
-		# import serial
-		# self.ser = serial.Serial('/dev/ttyACM0', 9600)
+		import serial
+		self.ser = serial.Serial('/dev/ttyACM0', 9600)
 		self.watches = []
 		self.control = controller.Controller.instance()
 		self.hook()
@@ -49,9 +48,9 @@ class Electronics(object):
 	def hook(self):
 		self.watch("self.control.ui.buzzer", lambda old, new: self.ser.write('a' if new else 'r'))
 
-		# self.task = threading.Thread(target=monitor, args=(self, self.control))
-		# self.task.daemon = True
-		# self.task.start()
+		self.task = threading.Thread(target=monitor, args=(self, self.control))
+		self.task.daemon = True
+		self.task.start()
 		time.sleep(1)
 
 	def watch(self, expr, action):
