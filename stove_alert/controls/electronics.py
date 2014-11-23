@@ -19,6 +19,7 @@ def monitor(electronics, control):
 	while(True):
 		electronics.ser.write('t\n') # temperature
 		control.sensors.temperature = float(electronics.ser.readline())
+		print "temperature is", control.sensors.temperature
 		control.preventation()
 		
 		time.sleep(2)
@@ -43,7 +44,7 @@ class Electronics(object):
 	def __init__(self):
 		import controller
 		import serial
-		self.ser = serial.Serial('/dev/ttyACM1', 9600)
+		self.ser = serial.Serial('/dev/ttyACM0', 9600)
 		self.watches = []
 		self.control = controller.Controller.instance()
 		self.hook()
