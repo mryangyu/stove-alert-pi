@@ -4,6 +4,8 @@ import time
 from utils.patterns import *
 from termcolor import colored
 
+import serial
+
 def digestion(func):
 	def inner(*args, **kwargs):
 		result = func(*args, **kwargs)
@@ -14,9 +16,9 @@ def digestion(func):
 	return inner
 
 def monitor(electronics, control):
+	electronics.ser.write('t') # temperature
 	while(True):
-		# TODO: read inputs from gpio
-		# control.sensors.temperature
+		control.sensors.temperature = electronics.ser.readline()
 		
 		time.sleep(1)
 
@@ -42,12 +44,10 @@ class Electronics(object):
 		self.watches = []
 		self.control = controller.Controller.instance()
 		self.hook()
-
-	def gpio(self, spot, value):
-		print colored("turning gpio %s" % spot, "yellow"), colored(value, "blue")
+		self.ser = serial.Serial('/dev/ttyACM0', 9600)
 
 	def hook(self):
-		self.watch("self.control.ui.buzzer", lambda old, new: self.gpio(2, new))
+		self.watch("self.control.ui.buzzer", lambda old, new: self.ser.write('a'))
 
 		self.task = threading.Thread(target=monitor, args=(self, self.control))
 		self.task.daemon = True
