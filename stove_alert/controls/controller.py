@@ -11,7 +11,7 @@ TRIGGER_TEMP = 39
 MOCKED = {
 		'system': "+16475608477",
 		"triggers": ['+16473009264', "+15145601025"]
-	}t
+	}
 
 class Twilio(Serializable):
 	# Your Account Sid and Auth Token from twilio.com/user/account
