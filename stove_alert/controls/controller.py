@@ -43,6 +43,8 @@ class Controller(Serializable):
 		if self._level > 0 and (Controller._last_alert_at - datetime.datetime.now()).total_seconds < 10: return
 
 		if self.sensors.temperature > 40:
+			if not self.ui.buzzer: self.ui.buzzer = True
+
 			self._last_temeprature = self.sensors.temperature
 			Controller._last_alert_at = datetime.datetime.now()
 
@@ -51,6 +53,9 @@ class Controller(Serializable):
 			else:
 				self.ui.power = False
 			self._level += 1
+
+		else:
+			if self.ui.buzzer: self.ui.buzzer = False
 
 	@electronics.digestion
 	def commands(self, commands):

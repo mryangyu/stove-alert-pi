@@ -14,6 +14,8 @@ def digestion(func):
 	return inner
 
 def monitor(electronics, control):
+	electronics.ser.write("r\n") # turn off buzzer
+
 	while(True):
 		electronics.ser.write('t\n') # temperature
 		control.sensors.temperature = float(electronics.ser.readline())
