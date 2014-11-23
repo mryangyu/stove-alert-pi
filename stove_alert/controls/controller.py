@@ -27,23 +27,24 @@ MOCKED = {
 
 @Singleton
 class Controller(Serializable):
+	_last_alert_at = None
 	def __init__(self):
 		self._level = 0
 		self.sensors = sensors.Sensors()
 		self.ui = sensors.UI()
 		self._last_temeprature = None
-		self._last_alert_at = None
 
 	def sms_user(self):
 		twilio.sms(MOCKED['triggers'][self._level], "Fire!!! Fire!!!!!")
 
 	def preventation(self):
 		if not self.ui.power: return
-		if self._level > 0 and (self._last_alert_at - datetime.datetime.now()).total_seconds < 10: return
+		if self._level > 0 and (Controller._last_alert_at - datetime.datetime.now()).total_seconds < 10: return
 
 		if self.sensors.temperature > 40:
 			self._last_temeprature = self.sensors.temperature
-			self._last_alert_at = datetime.datetime.now()
+			Controller._last_alert_at = datetime.datetime.now()
+
 			if self._level < 3:
 				self.sms_user()
 			else:
