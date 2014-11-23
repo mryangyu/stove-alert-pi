@@ -15,9 +15,9 @@ class ControllerService(WebService):
 		return control.to_JSON()
 
 	def PUT(self, **kw):
-		electronics.commands(kw)
+		control.commands(kw)
 		return control.to_JSON()
-		
+
 class RootService(WebService):
 	control = ControllerService()
 
