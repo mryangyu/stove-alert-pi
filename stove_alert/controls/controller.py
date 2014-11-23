@@ -42,15 +42,13 @@ class Controller(Serializable):
 		if self._level > 0 and (self._last_alert_at - datetime.datetime.now()).total_seconds < 10: return
 
 		if self.sensors.temperature > 40:
-			self._level += 1
-
+			self._last_temeprature = self.sensors.temperature
+			self._last_alert_at = datetime.datetime.now()
 			if self._level < 3:
 				self.sms_user()
 			else:
 				self.ui.power = False
-
-			self._last_temeprature = self.sensors.temperature
-			self._last_alert_at = datetime.datetime.now()
+			self._level += 1
 
 	def commands(self, commands):
 		for key in commands:
