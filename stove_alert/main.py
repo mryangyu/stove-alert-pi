@@ -20,6 +20,10 @@ class RootService(WebService):
 	def GET(self):
 		return "Hello!"
 
+	def PUT(self, **kw):
+		electronics.commands(kw)
+		return control.to_JSON()
+
 if __name__ == "__main__":
 	conf = {
 		'/': {

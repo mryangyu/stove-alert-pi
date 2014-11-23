@@ -33,4 +33,10 @@ class Controller(Serializable):
 
 	def sms_user(self):
 		twilio.sms(MOCKED['yang'], "Fire!!! Fire!!!!!")
- 
+
+	def commands(self, commands):
+		for key in commands:
+			if key == "buzzer":
+				self.control.ui.buzzer = bool(commands[key])
+			elif key == "power":
+				self.control.ui.power = bool(commands[key])

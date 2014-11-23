@@ -5,3 +5,4 @@ class Sensors(object):
 class UI(object):
 	def __init__(self):
 		self.buzzer = False
+		self.power = False
