@@ -19,6 +19,7 @@ def monitor(electronics, control):
 	electronics.ser.write('t') # temperature
 	while(True):
 		control.sensors.temperature = electronics.ser.readline()
+		print colored("reading temperature", "red"), control.sensors.temperature
 		
 		time.sleep(1)
 
