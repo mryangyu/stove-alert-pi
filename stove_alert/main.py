@@ -30,8 +30,8 @@ if __name__ == "__main__":
 			'tools.response_headers.headers': [('Content-Type', 'text/plain')],
 		}
 	}
-
+	cherrypy.config.update({
+		'server.socket_host': '0.0.0.0',
+		'server.socket_port': 8090}
+		)
 	cherrypy.quickstart(RootService(), '/', conf)
-
-	cherrypy.config.update({'server.socket_host': '0.0.0.0'}) 
-	cherrypy.quickstart()
