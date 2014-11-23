@@ -41,10 +41,10 @@ class Watch(object):
 class Electronics(object):
 	def __init__(self):
 		import controller
+		self.ser = serial.Serial('/dev/ttyACM0', 9600)
 		self.watches = []
 		self.control = controller.Controller.instance()
 		self.hook()
-		self.ser = serial.Serial('/dev/ttyACM0', 9600)
 
 	def hook(self):
 		self.watch("self.control.ui.buzzer", lambda old, new: self.ser.write('a'))
