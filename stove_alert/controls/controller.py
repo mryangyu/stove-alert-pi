@@ -22,17 +22,35 @@ twilio = Twilio()
 
 MOCKED = {
 		'system': "+16475608477",
-		"yang": '+16473009264'
+		"triggers": ['+16473009264', "+15145601025"]
 	}
 
 @Singleton
 class Controller(Serializable):
 	def __init__(self):
+		self._level = 0
 		self.sensors = sensors.Sensors()
 		self.ui = sensors.UI()
+		self._last_temeprature = None
+		self._last_alert_at = None
 
 	def sms_user(self):
-		twilio.sms(MOCKED['yang'], "Fire!!! Fire!!!!!")
+		twilio.sms(MOCKED['triggers'][self._level], "Fire!!! Fire!!!!!")
+
+	def preventation(self):
+		if not self.ui.power: return
+		if self._level > 0 and (self._last_alert_at - datetime.datetime.now()).total_seconds < 10: return
+
+		if self.sensors.temperature > 40:
+			self._level += 1
+
+			if self._level < 3:
+				self.sms_user()
+			else:
+				self.ui.power = False
+
+			self._last_temeprature = self.sensors.temperature
+			self._last_alert_at = datetime.datetime.now()
 
 	def commands(self, commands):
 		for key in commands:

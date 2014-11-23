@@ -15,8 +15,9 @@ def digestion(func):
 
 def monitor(electronics, control):
 	while(True):
-		electronics.ser.write('t') # temperature
-		control.sensors.temperature = electronics.ser.readline()
+		electronics.ser.write('t\n') # temperature
+		control.sensors.temperature = float(electronics.ser.readline())
+		control.preventation()
 		
 		time.sleep(2)
 
@@ -46,7 +47,8 @@ class Electronics(object):
 		self.hook()
 
 	def hook(self):
-		self.watch("self.control.ui.buzzer", lambda old, new: self.ser.write('a' if new else 'r'))
+		self.watch("self.control.ui.buzzer", lambda old, new: self.ser.write('a\n' if new else 'r\n'))
+		self.watch("self.control.ui.power", lambda old, new: self.ser.write('p\n' if new else 'o\n'))
 
 		self.task = threading.Thread(target=monitor, args=(self, self.control))
 		self.task.daemon = True
