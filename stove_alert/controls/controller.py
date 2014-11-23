@@ -7,6 +7,12 @@ from termcolor import colored
 from utils.patterns import *
 from twilio.rest import TwilioRestClient
 
+TRIGGER_TEMP = 39
+MOCKED = {
+		'system': "+16475608477",
+		"triggers": ['+16473009264', "+15145601025"]
+	}
+
 class Twilio(Serializable):
 	# Your Account Sid and Auth Token from twilio.com/user/account
 	def __init__(self):
@@ -19,12 +25,8 @@ class Twilio(Serializable):
 		message = self.client.messages.create(body=body, to=to, from_=MOCKED['system'])
 		return message.sid
 
-twilio = Twilio()
 
-MOCKED = {
-		'system': "+16475608477",
-		"triggers": ['+16473009264', "+15145601025"]
-	}
+twilio = Twilio()
 
 @Singleton
 class Controller(Serializable):
@@ -43,7 +45,7 @@ class Controller(Serializable):
 		if not self.ui.power: return
 		if self._level > 0 and (Controller._last_alert_at - datetime.datetime.now()).total_seconds < 10: return
 
-		if self.sensors.temperature > 40:
+		if self.sensors.temperature > TRIGGER_TEMP:
 			if not self.ui.buzzer: self.ui.buzzer = True
 
 			self._last_temeprature = self.sensors.temperature
