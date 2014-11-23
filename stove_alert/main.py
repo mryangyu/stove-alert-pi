@@ -32,3 +32,6 @@ if __name__ == "__main__":
 	}
 
 	cherrypy.quickstart(RootService(), '/', conf)
+
+	cherrypy.config.update({'server.socket_host': '0.0.0.0'}) 
+	cherrypy.quickstart()
