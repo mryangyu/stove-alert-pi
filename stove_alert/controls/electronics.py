@@ -47,7 +47,7 @@ class Electronics(object):
 		self.hook()
 
 	def hook(self):
-		self.watch("self.control.ui.buzzer", lambda old, new: self.ser.write('a'))
+		self.watch("self.control.ui.buzzer", lambda old, new: self.ser.write('a' if new else 'r'))
 
 		self.task = threading.Thread(target=monitor, args=(self, self.control))
 		self.task.daemon = True

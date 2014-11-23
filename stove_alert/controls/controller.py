@@ -7,7 +7,7 @@ from utils.patterns import *
 
 
 @Singleton
-class Controller(object):
+class Controller(Serializable):
 	def __init__(self):
 		self.sensors = sensors.Sensors()
 		self.ui = sensors.UI()
