@@ -38,6 +38,7 @@ class Controller(Serializable):
 	def sms_user(self):
 		twilio.sms(MOCKED['triggers'][self._level], "Fire!!! Fire!!!!!")
 
+	@electronics.digestion
 	def preventation(self):
 		if not self.ui.power: return
 		if self._level > 0 and (Controller._last_alert_at - datetime.datetime.now()).total_seconds < 10: return
